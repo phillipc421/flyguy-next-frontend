@@ -1,0 +1,16 @@
+@font-face {
+	font-family: goodtimes;
+	src: url(https://flyguy-store.s3.us-east-2.amazonaws.com/goodtimes.otf);
+}
+
+.container {
+	text-align: center;
+	padding: 1rem;
+}
+
+.container p {
+	font-family: goodtimes;
+	font-size: 2rem;
+	padding: 0;
+	margin: 0;
+}
