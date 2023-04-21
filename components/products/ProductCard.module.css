@@ -8,3 +8,7 @@
 .container img {
 	max-width: 100%;
 }
+
+.description {
+	height: 4rem;
+}

@@ -6,7 +6,7 @@ export default function ProductCard({ product }) {
 		<article className={styles.container}>
 			<h2>{name}</h2>
 			<img src={image} alt={name}></img>
-			<p>{description}</p>
+			<p className={styles.description}>{description}</p>
 			<p>${price}</p>
 			<Button label={"Add to Cart"} variant={"primary"}></Button>
 		</article>
