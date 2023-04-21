@@ -6,10 +6,15 @@ export const addToCartHandler = (currentCart, product) => {
 	if (currentCart[product.id]) {
 		return {
 			...currentCart,
-			[product.id]: { ...product, qty: currentCart[product.id].qty + 1 },
+			[product.id]: { ...product, qty: ++currentCart[product.id].qty },
 		};
 	}
 	return { ...currentCart, [product.id]: { ...product, qty: 1 } };
+};
+
+export const removeFromCartHandler = (currentCart, product) => {
+	const currentProduct = currentCart[product.id];
+	if (!currentProduct) return;
 };
 
 export default function CartContextProvider({ children }) {
