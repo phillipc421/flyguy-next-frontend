@@ -4,6 +4,7 @@ import "@fontsource/roboto/500.css";
 import "@fontsource/roboto/700.css";
 import { createTheme, ThemeProvider } from "@mui/material/styles";
 import SiteWrapper from "../components/layout/SiteWrapper";
+import CartContextProvider from "../store/cartContext";
 import "../styles/globals.css";
 
 const theme = createTheme({
@@ -19,9 +20,11 @@ const theme = createTheme({
 function MyApp({ Component, pageProps }) {
 	return (
 		<ThemeProvider theme={theme}>
-			<SiteWrapper>
-				<Component {...pageProps} />
-			</SiteWrapper>
+			<CartContextProvider>
+				<SiteWrapper>
+					<Component {...pageProps} />
+				</SiteWrapper>
+			</CartContextProvider>
 		</ThemeProvider>
 	);
 }
