@@ -1,0 +1,14 @@
+.container {
+	text-align: center;
+	box-shadow: rgba(149, 157, 165, 0.2) 0px 8px 24px;
+	max-width: 20rem;
+	padding: 1rem;
+}
+
+.container img {
+	max-width: 100%;
+}
+
+.description {
+	height: 4rem;
+}

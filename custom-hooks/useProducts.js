@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 export default function useProducts() {
-	console.log("hook ran");
-	const [products, setProducts] = useState(null);
+	const [products, setProducts] = useState([]);
 	const getProducts = () => {
 		const run = async () => {
 			const res = await fetch("http://localhost:3000/products");
