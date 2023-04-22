@@ -25,9 +25,17 @@ export const removeFromCartHandler = (currentCart, product) => {
 	return updatedCart;
 };
 
+// transform cart for backend
+export const transformCart = (cart) => {
+	const items = { items: Object.values(cart) };
+	console.log(items);
+	return items;
+};
+
 export default function CartContextProvider({ children }) {
 	const [cart, setCart] = useState({});
 	const [cartOpen, setCartOpen] = useState(false);
+	console.dir(cart);
 
 	const cartCount = Object.values(cart).reduce(
 		(acc, product) => acc + product.qty,

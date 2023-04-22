@@ -1,5 +1,6 @@
 import { useContext, Fragment } from "react";
 import { CartContext } from "../../store/cartContext";
+import { transformCart } from "../../store/cartContext";
 import CartItem from "./CartItem";
 import List from "@mui/material/List";
 import Dialog from "@mui/material/Dialog";
@@ -61,7 +62,11 @@ export default function Cart() {
 				>
 					Empty
 				</Button>
-				<Button variant="contained" disabled={!cartTotal}>
+				<Button
+					variant="contained"
+					disabled={!cartTotal}
+					onClick={() => transformCart(cart)}
+				>
 					Checkout
 				</Button>
 			</DialogActions>
