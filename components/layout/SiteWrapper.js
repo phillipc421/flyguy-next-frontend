@@ -7,13 +7,13 @@ import Header from "./Header";
 import Footer from "./Footer";
 import styles from "./SiteWrapper.module.css";
 export default function SiteWrapper({ children }) {
-	const { setCartOpen } = useContext(CartContext);
+	const { setCartOpen, cartCount } = useContext(CartContext);
 	return (
 		<main className={styles.container}>
 			<Header>
 				<p>FLYGUY Hair</p>
 				<IconButton color="primary" onClick={() => setCartOpen(true)}>
-					<Badge badgeContent={4}>
+					<Badge badgeContent={cartCount}>
 						<ShoppingCartIcon fontSize="large"></ShoppingCartIcon>
 					</Badge>
 				</IconButton>

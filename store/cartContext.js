@@ -15,14 +15,28 @@ export const addToCartHandler = (currentCart, product) => {
 export const removeFromCartHandler = (currentCart, product) => {
 	const currentProduct = currentCart[product.id];
 	if (!currentProduct) return;
+	const updatedCart = {
+		...currentCart,
+		[product.id]: { ...product, qty: --currentCart[product.id].qty },
+	};
+	if (updatedCart[product.id].qty <= 0) {
+		delete updatedCart[product.id];
+	}
+	return updatedCart;
 };
 
 export default function CartContextProvider({ children }) {
 	const [cart, setCart] = useState({});
 	const [cartOpen, setCartOpen] = useState(false);
-	console.log(setCart);
+
+	const cartCount = Object.values(cart).reduce(
+		(acc, product) => acc + product.qty,
+		0
+	);
 	return (
-		<CartContext.Provider value={{ cart, setCart, cartOpen, setCartOpen }}>
+		<CartContext.Provider
+			value={{ cart, setCart, cartOpen, setCartOpen, cartCount }}
+		>
 			{children}
 		</CartContext.Provider>
 	);

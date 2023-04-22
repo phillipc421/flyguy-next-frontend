@@ -7,7 +7,7 @@ export default function ProductCard({ product }) {
 	const { name, price, stock, id, description, image } = product;
 
 	const clickHandler = () =>
-		setCart((prev) => addToCartHandler(prev, { name, price, id }));
+		setCart((prev) => addToCartHandler(prev, { name, price, id, image }));
 	return (
 		<article className={styles.container}>
 			<h2>{name}</h2>
