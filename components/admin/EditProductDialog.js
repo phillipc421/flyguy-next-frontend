@@ -15,6 +15,7 @@ export default function EditProductDialog({ product, productSetter }) {
 
   const [existingValues, setExistingValues] = useState({ ...startValues });
   const [newValues, setNewValues] = useState({ ...startValues });
+  const [loading, setLoading] = useState(false);
 
   const closeHandler = () => {
     productSetter(null);
@@ -24,9 +25,21 @@ export default function EditProductDialog({ product, productSetter }) {
     setNewValues({ ...existingValues });
   };
 
-  const submitHandler = () => {
+  const submitHandler = async () => {
+    setLoading(true);
     const x = compareFn(existingValues, newValues, true);
-    console.log(x);
+    try {
+      const res = await fetch("http://localhost:3001/api/admin", {
+        method: "PUT",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ ...x, id: product.id }),
+      });
+      const data = await res.json();
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+    }
+    setLoading(false);
   };
 
   const compareFn = (existingValues, newValues, submit = false) => {
