@@ -12,3 +12,8 @@
 .description {
 	height: 4rem;
 }
+
+.container p {
+	margin-top: 1rem;
+	margin-bottom: 1rem;
+}

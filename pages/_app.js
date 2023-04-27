@@ -11,7 +11,7 @@ import CartContextProvider from "../store/cartContext";
 const theme = createTheme({
   palette: {
     primary: {
-      main: "#3c3c3c",
+      main: "#000000",
     },
     secondary: {
       main: "#ffffff",

@@ -1,5 +1,7 @@
 import { useContext } from "react";
 import { CartContext } from "../../store/cartContext";
+import Typography from "@mui/material/Typography";
+import Link from "next/link";
 import IconButton from "@mui/material/IconButton";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import Badge from "@mui/material/Badge";
@@ -19,17 +21,22 @@ export default function SiteWrapper({ children }) {
   return (
     <main className={styles.container}>
       <Header>
-        <p>FLYGUY Hair</p>
+        <Link href={"/"}>
+          <p className={styles.logo}>FLYGUY Hair</p>
+        </Link>
+
         <NavBar links={authLinks}></NavBar>
         <IconButton color="primary" onClick={() => setCartOpen(true)}>
           <Badge badgeContent={cartCount}>
-            <ShoppingCartIcon fontSize="large"></ShoppingCartIcon>
+            <ShoppingCartIcon fontSize="medium"></ShoppingCartIcon>
           </Badge>
         </IconButton>
       </Header>
       {children}
       <Footer>
-        <p>&#169; {new Date().getFullYear()} FLYGUY Hair LLC</p>
+        <Typography variant="body1">
+          &#169; {new Date().getFullYear()} FLYGUY Hair LLC
+        </Typography>
       </Footer>
     </main>
   );
