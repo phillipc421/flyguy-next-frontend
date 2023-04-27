@@ -9,7 +9,7 @@ import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
 
-const def = {
+export const def = {
   name: "",
   description: "",
   price: "",
