@@ -34,7 +34,6 @@ export default async function handler(req, res) {
           stock = parseInt(stock);
           body.stock = stock;
         }
-
         const response = await fetch("http://localhost:3000/products/" + id, {
           method: "PUT",
           headers: { "Content-Type": "application/json" },

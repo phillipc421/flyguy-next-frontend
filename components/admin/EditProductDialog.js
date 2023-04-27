@@ -2,9 +2,8 @@ import { useState } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import Stack from "@mui/material/Stack";
+import Snackbar from "@mui/material/Snackbar";
 import Button from "@mui/material/Button";
 import EditProductProperties from "./EditProductProperties";
 import { def } from "../../pages/admin/create-product";
@@ -16,6 +15,7 @@ export default function EditProductDialog({ product, productSetter }) {
   const [existingValues, setExistingValues] = useState({ ...startValues });
   const [newValues, setNewValues] = useState({ ...startValues });
   const [loading, setLoading] = useState(false);
+  const [snack, setSnack] = useState(["", false]);
 
   const closeHandler = () => {
     productSetter(null);
@@ -35,6 +35,8 @@ export default function EditProductDialog({ product, productSetter }) {
         body: JSON.stringify({ ...x, id: product.id }),
       });
       const data = await res.json();
+      // success
+      setSnack([product.name + " updated.", true]);
       console.log(data);
     } catch (e) {
       console.log(e);
@@ -61,31 +63,39 @@ export default function EditProductDialog({ product, productSetter }) {
     return false;
   };
   return (
-    <Dialog open={!!product} onClose={closeHandler}>
-      <DialogTitle>{product.name}</DialogTitle>
-      <DialogContent>
-        <EditProductProperties
-          product={product}
-          newValues={newValues}
-          newValuesSetter={setNewValues}
-        ></EditProductProperties>
-      </DialogContent>
-      <DialogActions>
-        <Button
-          variant="outlined"
-          disabled={!compareFn(existingValues, newValues)}
-          onClick={revertHandler}
-        >
-          Revert
-        </Button>
-        <Button
-          variant="contained"
-          disabled={!compareFn(existingValues, newValues)}
-          onClick={submitHandler}
-        >
-          Save
-        </Button>
-      </DialogActions>
-    </Dialog>
+    <>
+      <Dialog open={!!product} onClose={closeHandler}>
+        <DialogTitle>{product.name}</DialogTitle>
+        <DialogContent>
+          <EditProductProperties
+            product={product}
+            newValues={newValues}
+            newValuesSetter={setNewValues}
+          ></EditProductProperties>
+        </DialogContent>
+        <DialogActions>
+          <Button
+            variant="outlined"
+            disabled={!compareFn(existingValues, newValues) || loading}
+            onClick={revertHandler}
+          >
+            Revert
+          </Button>
+          <Button
+            variant="contained"
+            disabled={!compareFn(existingValues, newValues) || loading}
+            onClick={submitHandler}
+          >
+            Save
+          </Button>
+        </DialogActions>
+      </Dialog>
+      <Snackbar
+        open={snack[1]}
+        message={snack[0]}
+        onClose={() => setSnack(["", false])}
+        autoHideDuration={5000}
+      ></Snackbar>
+    </>
   );
 }

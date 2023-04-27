@@ -5,6 +5,7 @@ import Stack from "@mui/material/Stack";
 import TextField from "@mui/material/TextField";
 import InputAdornment from "@mui/material/InputAdornment";
 import Button from "@mui/material/Button";
+import Snackbar from "@mui/material/Snackbar";
 import CircularProgress from "@mui/material/CircularProgress";
 import Typography from "@mui/material/Typography";
 import Skeleton from "@mui/material/Skeleton";
@@ -20,6 +21,7 @@ export const def = {
 export default function CreateProduct() {
   const [info, setInfo] = useState({ ...def });
   const [loading, setLoading] = useState(false);
+  const [snack, setSnack] = useState(["", false]);
 
   const changeHandler = ({ target: { name, value } }) => {
     setInfo((prev) => ({ ...prev, [name]: value }));
@@ -32,13 +34,16 @@ export default function CreateProduct() {
   const submitHandler = async () => {
     setLoading(true);
     try {
-      const res = await fetch("http://localhost:3001/api/create-product", {
+      const res = await fetch("http://localhost:3001/api/admin", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify(info),
       });
       const data = await res.json();
+      // success
+
       console.log("Response:", data);
+      setSnack([info.name + " created.", true]);
       clearHandler();
     } catch (e) {
       console.error(e);
@@ -133,6 +138,12 @@ export default function CreateProduct() {
           </Stack>
         </Stack>
       </Box>
+      <Snackbar
+        open={snack[1]}
+        message={snack[0]}
+        onClose={() => setSnack(["", false])}
+        autoHideDuration={5000}
+      ></Snackbar>
     </Container>
   );
 }

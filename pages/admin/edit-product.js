@@ -7,11 +7,12 @@ import Stack from "@mui/material/Stack";
 import Paper from "@mui/material/Paper";
 import IconButton from "@mui/material/IconButton";
 import EditIcon from "@mui/icons-material/Edit";
+import Snackbar from "@mui/material/Snackbar";
 import EditProductDialog from "../../components/admin/EditProductDialog";
 export default function EditProduct() {
   const [currentProduct, setCurrentProduct] = useState(null);
 
-  const products = useProducts();
+  const products = useProducts(currentProduct);
   return (
     <Container>
       <Box>
