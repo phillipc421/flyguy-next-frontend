@@ -7,13 +7,20 @@ import Header from "./Header";
 import NavBar from "./NavBar";
 import Footer from "./Footer";
 import styles from "./SiteWrapper.module.css";
+
+const authLinks = [
+  { title: "Login", href: "/api/auth/login" },
+  { title: "Logout", href: "/api/auth/logout" },
+  { title: "Profile", href: "profile" },
+];
 export default function SiteWrapper({ children }) {
   const { setCartOpen, cartCount } = useContext(CartContext);
+
   return (
     <main className={styles.container}>
       <Header>
         <p>FLYGUY Hair</p>
-        <NavBar links={[{ title: "Login", href: "/login" }]}></NavBar>
+        <NavBar links={authLinks}></NavBar>
         <IconButton color="primary" onClick={() => setCartOpen(true)}>
           <Badge badgeContent={cartCount}>
             <ShoppingCartIcon fontSize="large"></ShoppingCartIcon>
