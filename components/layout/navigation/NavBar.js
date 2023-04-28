@@ -1,37 +1,69 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
 import { useState } from "react";
+import { useRouter } from "next/router";
 import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
+import NavItem from "./NavItem";
 import MenuIcon from "@mui/icons-material/Menu";
-import CartIcon from "../cart/CartIcon";
-import IconButton from "@mui/material/IconButton";
+import CartIcon from "../../cart/CartIcon";
+import InventoryIcon from "@mui/icons-material/Inventory";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 
-const authLinks = [
-  { title: "Login", href: "/api/auth/login" },
-  { title: "Logout", href: "/api/auth/logout" },
-  { title: "Profile", href: "profile" },
-  { title: "Cart", href: "" },
-];
+import IconButton from "@mui/material/IconButton";
+import { useContext } from "react";
+import { CartContext } from "../../../store/cartContext";
+
 export default function NavBar() {
   const [anchor, setAnchor] = useState(null);
+  const { setCartOpen } = useContext(CartContext);
+  const router = useRouter();
   const { user, isLoading, error } = useUser();
   // admin functionality
   // protect routes to admins functions
+
+  const links = [
+    {
+      icon: <InventoryIcon></InventoryIcon>,
+      text: "Products",
+      click: () => clickHandler(() => router.push("/")),
+    },
+    {
+      icon: <CartIcon></CartIcon>,
+      text: "Cart",
+      click: () => clickHandler(() => setCartOpen(true)),
+    },
+    {
+      icon: <LoginIcon></LoginIcon>,
+      text: "Login",
+      click: () => clickHandler(() => router.push("/api/auth/login")),
+    },
+    {
+      icon: <LogoutIcon></LogoutIcon>,
+      text: "Logout",
+      click: () => clickHandler(() => router.push("/api/auth/logout")),
+    },
+  ];
+
+  // wrapper to always close menu when an item is clicked
+  const clickHandler = (fn) => {
+    setAnchor(null);
+    fn();
+  };
+
   return (
     <div>
       <IconButton color="primary" onClick={(e) => setAnchor(e.currentTarget)}>
         <MenuIcon></MenuIcon>
       </IconButton>
       <Menu anchorEl={anchor} open={!!anchor} onClose={() => setAnchor(null)}>
-        {authLinks.map((link) => {
-          if (link.title === "Cart")
-            return (
-              <MenuItem key={link.title}>
-                <CartIcon></CartIcon>
-              </MenuItem>
-            );
-          return <MenuItem key={link.title}>{link.title}</MenuItem>;
-        })}
+        {links.map((link) => (
+          <NavItem
+            key={link.text}
+            icon={link.icon}
+            text={link.text}
+            onClick={link.click}
+          ></NavItem>
+        ))}
       </Menu>
     </div>
   );

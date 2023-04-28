@@ -4,8 +4,8 @@ import ListItemIcon from "@mui/material/ListItemIcon";
 export default function NavItem({ icon, text, onClick }) {
   return (
     <MenuItem onClick={onClick}>
-      <ListItemIcon></ListItemIcon>
-      <ListItemText></ListItemText>
+      <ListItemIcon>{icon}</ListItemIcon>
+      <ListItemText>{text}</ListItemText>
     </MenuItem>
   );
 }
