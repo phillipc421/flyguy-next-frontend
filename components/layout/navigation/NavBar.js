@@ -33,14 +33,12 @@ export default function NavBar() {
       click: () => clickHandler(() => setCartOpen(true)),
     },
     {
-      icon: <LoginIcon></LoginIcon>,
-      text: "Login",
-      click: () => clickHandler(() => router.push("/api/auth/login")),
-    },
-    {
-      icon: <LogoutIcon></LogoutIcon>,
-      text: "Logout",
-      click: () => clickHandler(() => router.push("/api/auth/logout")),
+      icon: !user ? <LoginIcon></LoginIcon> : <LogoutIcon></LogoutIcon>,
+      text: !user ? "Login" : "Logout",
+      click: () =>
+        clickHandler(() =>
+          router.push(!user ? "/api/auth/login" : "/api/auth/logout")
+        ),
     },
   ];
 
