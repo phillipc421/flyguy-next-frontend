@@ -10,7 +10,7 @@ import { def } from "../../pages/admin/create-product";
 export default function EditProductDialog({ product, productSetter }) {
   const properties = Object.keys(product).filter((prop) => prop in def);
   const startValues = {};
-  properties.forEach((prop) => (startValues[prop] = product[prop]));
+  properties.forEach((prop) => (startValues[prop] = product[prop] || ""));
 
   const [existingValues, setExistingValues] = useState({ ...startValues });
   const [newValues, setNewValues] = useState({ ...startValues });
@@ -64,7 +64,7 @@ export default function EditProductDialog({ product, productSetter }) {
   };
   return (
     <>
-      <Dialog open={!!product} onClose={closeHandler}>
+      <Dialog open={!!product} onClose={closeHandler} fullWidth>
         <DialogTitle>{product.name}</DialogTitle>
         <DialogContent>
           <EditProductProperties

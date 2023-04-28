@@ -13,6 +13,8 @@ import Skeleton from "@mui/material/Skeleton";
 export const def = {
   name: "",
   description: "",
+  longDescription: "",
+  ingredients: "",
   price: "",
   image: "",
   stock: "",
@@ -76,6 +78,28 @@ export default function CreateProduct() {
               label="Description"
               name="description"
               value={info.description}
+              onChange={(e) => changeHandler(e)}
+            ></TextField>
+          )}
+          {loading ? (
+            <Skeleton variant="rectangular" height={50}></Skeleton>
+          ) : (
+            <TextField
+              required
+              label="Details"
+              name="longDescription"
+              value={info.longDescription}
+              onChange={(e) => changeHandler(e)}
+            ></TextField>
+          )}
+          {loading ? (
+            <Skeleton variant="rectangular" height={50}></Skeleton>
+          ) : (
+            <TextField
+              required
+              label="Ingredients"
+              name="ingredients"
+              value={info.ingredients}
               onChange={(e) => changeHandler(e)}
             ></TextField>
           )}
