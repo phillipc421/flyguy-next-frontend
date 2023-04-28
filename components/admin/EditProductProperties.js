@@ -27,6 +27,7 @@ export default function EditProductProperties({
           <TextField
             key={prop}
             name={prop}
+            multiline={prop === "longDescription"}
             label={capitalize(prop)}
             value={newValues[prop]}
             onChange={(e) => changeHandler(e)}

@@ -45,21 +45,3 @@ export default function EditProduct() {
     </Container>
   );
 }
-
-{
-  /* <div>
-<Typography variant="body1">{product.name}</Typography>
-</div>
-<div>
-<Typography variant="body1">{product.description}</Typography>
-</div>
-<div>
-<Typography variant="body1">{product.image}</Typography>
-</div>
-<div>
-<Typography variant="body1">{product.price}</Typography>
-</div>
-<div>
-<Typography variant="body1">{product.stock}</Typography>
-</div> */
-}
