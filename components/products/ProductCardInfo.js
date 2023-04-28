@@ -1,11 +1,12 @@
 import Typography from "@mui/material/Typography";
-export default function ProductCardInfo({ direction, ingredients }) {
+export default function ProductCardInfo({ longDesc, ingredients }) {
   return (
     <div>
       <section>
         <Typography variant="h4" component="h3">
           Directions
         </Typography>
+        <Typography variant="body1">{longDesc}</Typography>
       </section>
       <section>
         <Typography variant="h4" component="h3">

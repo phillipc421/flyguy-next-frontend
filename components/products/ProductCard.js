@@ -4,24 +4,19 @@ import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import styles from "./ProductCard.module.css";
 import ProductCardInfo from "./ProductCardInfo";
-import { stardew, solarwind, moondust } from "../../data/ingredients";
 export default function ProductCard({ product }) {
   const { setCart } = useContext(CartContext);
   const [moreInfoClicked, setMoreInfoClicked] = useState(false);
-  const { name, price, stock, id, description, image } = product;
-
-  let dataVar;
-  switch (name) {
-    case "Moon Dust":
-      dataVar = moondust;
-      break;
-    case "Solar Wind":
-      dataVar = solarwind;
-      break;
-    case "Star Dew":
-      dataVar = stardew;
-      break;
-  }
+  const {
+    name,
+    price,
+    stock,
+    id,
+    description,
+    image,
+    longDescription,
+    ingredients,
+  } = product;
 
   const clickHandler = () =>
     setCart((prev) => addToCartHandler(prev, { name, price, id, image }));
@@ -43,7 +38,10 @@ export default function ProductCard({ product }) {
         </>
       )}
       {moreInfoClicked && (
-        <ProductCardInfo ingredients={dataVar}></ProductCardInfo>
+        <ProductCardInfo
+          ingredients={ingredients}
+          longDesc={longDescription}
+        ></ProductCardInfo>
       )}
       <Button variant="contained" onClick={clickHandler}>
         Add To Cart
