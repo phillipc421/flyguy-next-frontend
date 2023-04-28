@@ -3,10 +3,12 @@ import { CartContext, addToCartHandler } from "../../store/cartContext";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
 import styles from "./ProductCard.module.css";
+import ProductCardDetail from "./ProductCardDetail";
 import ProductCardInfo from "./ProductCardInfo";
 export default function ProductCard({ product }) {
   const { setCart } = useContext(CartContext);
-  const [moreInfoClicked, setMoreInfoClicked] = useState(false);
+  // const [moreInfoClicked, setMoreInfoClicked] = useState(false);
+  const [expanded, setExpanded] = useState("");
   const {
     name,
     price,
@@ -26,23 +28,31 @@ export default function ProductCard({ product }) {
         {name}
       </Typography>
       <img src={image} alt={name}></img>
-      {!moreInfoClicked && (
-        <>
-          <Typography variant="body1" sx={{ height: "4rem" }}>
-            {description}
-          </Typography>
-          <Button variant="outlined" onClick={() => setMoreInfoClicked(true)}>
+
+      <>
+        <Typography variant="body1" sx={{ height: "4rem" }}>
+          {description}
+        </Typography>
+        {/* <Button variant="outlined" onClick={() => setMoreInfoClicked(true)}>
             More Info
-          </Button>
-          <Typography variant="body1">${price}</Typography>
-        </>
-      )}
-      {moreInfoClicked && (
-        <ProductCardInfo
-          ingredients={ingredients}
-          longDesc={longDescription}
-        ></ProductCardInfo>
-      )}
+          </Button> */}
+        <ProductCardDetail
+          label="Details and Directions"
+          expanded={expanded}
+          setExpanded={setExpanded}
+        >
+          <ProductCardInfo content={longDescription}></ProductCardInfo>
+        </ProductCardDetail>
+        <ProductCardDetail
+          label="Ingredients"
+          expanded={expanded}
+          setExpanded={setExpanded}
+        >
+          <ProductCardInfo content={ingredients}></ProductCardInfo>
+        </ProductCardDetail>
+        <Typography variant="body1">${price}</Typography>
+      </>
+
       <Button variant="contained" onClick={clickHandler}>
         Add To Cart
       </Button>
