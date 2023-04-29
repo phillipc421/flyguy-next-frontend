@@ -5,10 +5,12 @@ import Button from "@mui/material/Button";
 import styles from "./ProductCard.module.css";
 import ProductCardDetail from "./ProductCardDetail";
 import ProductCardInfo from "./ProductCardInfo";
+import Snackbar from "@mui/material/Snackbar";
 export default function ProductCard({ product }) {
   const { setCart } = useContext(CartContext);
   // const [moreInfoClicked, setMoreInfoClicked] = useState(false);
   const [expanded, setExpanded] = useState("");
+  const [snack, setSnack] = useState(["", false]);
   const {
     name,
     price,
@@ -20,8 +22,11 @@ export default function ProductCard({ product }) {
     ingredients,
   } = product;
 
-  const clickHandler = () =>
+  const clickHandler = () => {
     setCart((prev) => addToCartHandler(prev, { name, price, id, image }));
+    setSnack([name + " added to cart.", true]);
+  };
+
   return (
     <article className={styles.container}>
       <Typography variant="h5" component="h2">
@@ -56,6 +61,12 @@ export default function ProductCard({ product }) {
       <Button variant="contained" onClick={clickHandler}>
         Add To Cart
       </Button>
+      <Snackbar
+        open={snack[1]}
+        message={snack[0]}
+        autoHideDuration={5000}
+        onClose={() => setSnack(["", false])}
+      ></Snackbar>
     </article>
   );
 }
