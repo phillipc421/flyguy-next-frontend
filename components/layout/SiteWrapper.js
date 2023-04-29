@@ -1,9 +1,10 @@
 import { useUser } from "@auth0/nextjs-auth0/client";
+import { useContext } from "react";
+import { CartContext } from "../../store/cartContext";
+import Cart from "../cart/Cart";
 import Typography from "@mui/material/Typography";
 import Link from "next/link";
-import IconButton from "@mui/material/IconButton";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import Badge from "@mui/material/Badge";
+import Drawer from "@mui/material/Drawer";
 import Header from "./Header";
 import NavBar from "./navigation/NavBar";
 import Footer from "./Footer";
@@ -11,6 +12,7 @@ import styles from "./SiteWrapper.module.css";
 
 export default function SiteWrapper({ children }) {
   const { user, error, isLoading } = useUser();
+  const { cartOpen, setCartOpen } = useContext(CartContext);
 
   return (
     <main className={styles.container}>
@@ -33,6 +35,9 @@ export default function SiteWrapper({ children }) {
           &#169; {new Date().getFullYear()} FLYGUY Hair LLC
         </Typography>
       </Footer>
+      <Drawer anchor="right" open={cartOpen} onClose={() => setCartOpen(false)}>
+        <Cart></Cart>
+      </Drawer>
     </main>
   );
 }
