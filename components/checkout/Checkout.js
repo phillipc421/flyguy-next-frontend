@@ -3,8 +3,12 @@ import { loadStripe } from "@stripe/stripe-js";
 import { Elements } from "@stripe/react-stripe-js";
 import { IconButton } from "@mui/material";
 import ArrowBackIcon from "@mui/icons-material/ArrowBack";
+import Form from "./Form";
+
+const stripePromise = loadStripe(process.env.NEXT_PUBLIC_STRIPE_P_KEY);
 export default function Checkout({ cart, checkoutSetter }) {
   const [stripeCs, setStripeCs] = useState("");
+  console.log(stripePromise);
   useEffect(() => {
     const fetcher = async () => {
       try {
@@ -32,6 +36,14 @@ export default function Checkout({ cart, checkoutSetter }) {
   return (
     <div>
       {/* {JSON.stringify(cart)} */}
+      {stripeCs && (
+        <Elements
+          options={{ clientSecret: stripeCs, appearance: { theme: "stripe" } }}
+          stripe={stripePromise}
+        >
+          <Form></Form>
+        </Elements>
+      )}
       <IconButton onClick={() => checkoutSetter(false)}>
         <ArrowBackIcon></ArrowBackIcon>
       </IconButton>
