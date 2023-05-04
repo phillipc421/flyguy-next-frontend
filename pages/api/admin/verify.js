@@ -24,6 +24,7 @@ export default async function (req, res) {
   if (req.method === "POST") {
     const { accessToken } = req.body;
     const decoded = verify(accessToken, KEY);
+    console.log("DECODED", decoded);
     const { permissions } = decoded;
     if (!permissions.length) return res.status(403).json({ authorized: false });
     for (let i = 0; i < permissions.length; i++) {

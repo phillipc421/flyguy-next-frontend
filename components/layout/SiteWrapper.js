@@ -13,7 +13,7 @@ import styles from "./SiteWrapper.module.css";
 export default function SiteWrapper({ children }) {
   const { user, error, isLoading } = useUser();
   const { cartOpen, setCartOpen } = useContext(CartContext);
-
+  console.log("USER", user);
   return (
     <main className={styles.container}>
       <Header>
