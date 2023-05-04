@@ -1,4 +1,4 @@
-import { useContext, Fragment, useState } from "react";
+import { useContext, Fragment, useState, useMemo } from "react";
 import { CartContext } from "../../store/cartContext";
 import { transformCart } from "../../store/cartContext";
 import CartItem from "./CartItem";
@@ -12,16 +12,44 @@ import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
 import Box from "@mui/material/Box";
 import DeleteOutlineIcon from "@mui/icons-material/DeleteOutline";
+import Checkout from "../checkout/Checkout";
 
 export default function Cart() {
   const { cartOpen, setCartOpen, cart, setCart } = useContext(CartContext);
+  const [checkoutOpen, setCheckoutOpen] = useState(false);
+  const [stripeCs, setStripeCs] = useState("");
+
+  // checkout and create intent are different
+  // intent should happen when checkout first starts;
+  const checkoutHandler = async () => {
+    setCheckoutOpen(true);
+    try {
+      const response = await fetch("/api/checkout", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(cart),
+      });
+      const data = await response.json();
+      if (data.stripeClientSecret) {
+        setStripeCs(data.stripeClientSecret);
+      }
+      // success
+      console.log(data);
+    } catch (e) {
+      console.log(e);
+      setCartOpen(false);
+    }
+  };
+
+  const emptyHandler = () => setCart({});
 
   const cartTotal = Object.values(cart).reduce(
     (acc, item) => acc + item.price * item.qty,
     0
   );
-  return (
-    <Box sx={{ width: "20rem", padding: "1rem" }}>
+
+  const cartComponent = (
+    <>
       <List
         subheader={
           <ListSubheader
@@ -54,7 +82,7 @@ export default function Cart() {
           <Button
             endIcon={<DeleteOutlineIcon></DeleteOutlineIcon>}
             variant="text"
-            onClick={() => setCart({})}
+            onClick={emptyHandler}
             disabled={!cartTotal}
           >
             Empty
@@ -62,7 +90,7 @@ export default function Cart() {
           <Button
             variant="contained"
             disabled={!cartTotal}
-            onClick={() => transformCart(cart)}
+            onClick={() => setCheckoutOpen(true)}
           >
             Checkout
           </Button>
@@ -72,56 +100,15 @@ export default function Cart() {
           Your Cart is Empty!
         </Typography>
       )}
+    </>
+  );
+  return (
+    <Box sx={{ width: "20rem", padding: "1rem" }}>
+      {!checkoutOpen ? (
+        cartComponent
+      ) : (
+        <Checkout cart={cart} checkoutSetter={setCheckoutOpen}></Checkout>
+      )}
     </Box>
   );
-  // 	<Dialog
-  // 		open={cartOpen}
-  // 		onClose={() => setCartOpen(false)}
-  // 		maxWidth="sm"
-  // 		fullWidth
-  // 	>
-  // 		<DialogTitle
-  // 			sx={{
-  // 				display: "flex",
-  // 				alignItems: "center",
-  // 				justifyContent: "space-between",
-  // 			}}
-  // 		>
-  // 			Cart
-  // 			<IconButton color="primary" onClick={() => setCartOpen(false)}>
-  // 				<CloseIcon></CloseIcon>
-  // 			</IconButton>
-  // 		</DialogTitle>
-  // 		<DialogContent>
-  // <List>
-  // 	{Object.values(cart).map((item) => (
-  // 		<Fragment key={item.id}>
-  // 			<CartItem item={item} setCart={setCart}></CartItem>
-  // 			<Divider key={item.id}></Divider>
-  // 		</Fragment>
-  // 	))}
-  // </List>
-  // 			<DialogContentText align="right" variant="h5">
-  // 				Total: ${cartTotal}
-  // 			</DialogContentText>
-  // 		</DialogContent>
-  // 		<DialogActions>
-  // <Button
-  // 	endIcon={<DeleteOutlineIcon></DeleteOutlineIcon>}
-  // 	variant="text"
-  // 	onClick={() => setCart({})}
-  // 	disabled={!cartTotal}
-  // >
-  // 	Empty
-  // </Button>
-  // <Button
-  // 	variant="contained"
-  // 	disabled={!cartTotal}
-  // 	onClick={() => transformCart(cart)}
-  // >
-  // 	Checkout
-  // </Button>
-  // 		</DialogActions>
-  // 	</Dialog>
-  // );
 }

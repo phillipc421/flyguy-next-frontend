@@ -8,7 +8,6 @@ export default function Home() {
   return (
     <main>
       <ProductList products={products}></ProductList>
-      {/* <Cart></Cart> */}
     </main>
   );
 }

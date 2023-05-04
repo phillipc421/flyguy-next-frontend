@@ -12,7 +12,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import IconButton from "@mui/material/IconButton";
 import { useContext } from "react";
 import { CartContext } from "../../../store/cartContext";
-
+const ROLES = "flyguy/roles";
 export default function NavBar() {
   const [anchor, setAnchor] = useState(null);
   const { setCartOpen } = useContext(CartContext);
@@ -21,6 +21,7 @@ export default function NavBar() {
   // admin functionality
   // protect routes to admins functions
 
+  // const isAdmin = user[ROLES][0] === "Admin";
   const links = [
     {
       icon: <InventoryIcon></InventoryIcon>,
@@ -41,6 +42,21 @@ export default function NavBar() {
         ),
     },
   ];
+
+  user &&
+    user[ROLES][0] === "Admin" &&
+    links.push(
+      {
+        icon: <InventoryIcon></InventoryIcon>,
+        text: "Add Product",
+        click: () => clickHandler(() => router.push("/admin/create-product")),
+      },
+      {
+        icon: <InventoryIcon></InventoryIcon>,
+        text: "Update Products",
+        click: () => clickHandler(() => router.push("/admin/edit-product")),
+      }
+    );
 
   // wrapper to always close menu when an item is clicked
   const clickHandler = (fn) => {
