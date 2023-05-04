@@ -1,4 +1,10 @@
-export default async function handler(req, res) {
+import { withApiAuthRequired, getSession } from "@auth0/nextjs-auth0";
+import { verifyJwt } from "../../../utils";
+
+export default withApiAuthRequired(async function handler(req, res) {
+  console.log("YAA");
+  const verified = await verifyJwt(req, res, getSession);
+  if (!verified) return res.status(403).json({ message: "Unauthorized" });
   const METHOD = req.method;
   switch (METHOD) {
     case "POST":
@@ -49,4 +55,4 @@ export default async function handler(req, res) {
         return res.status(500).json({ message: "Internal Server Error" });
       }
   }
-}
+});
